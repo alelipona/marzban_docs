@@ -4,7 +4,7 @@ description: Настройки узла
 sidebar:
  order: 8
 ---
-import {  Steps } from '@astrojs/starlight/components';
+import {  Steps, FileTree } from '@astrojs/starlight/components';
 
 :::note
 Если Вы не планируете использовать дополнительные узлы (например для расширения географии Вашего сервиса), можете пропустить данный шаг.
@@ -21,6 +21,17 @@ import {  Steps } from '@astrojs/starlight/components';
 В зависимости от Вашего выбора, приложение может использовать или RPyC для удаленных вызовов процедур, или REST, используя стандартные HTTP-методы (GET, POST, PUT, DELETE и т.д.) для выполнения различных операций.
 
 С помощью этого руководства вы можете создать узел Marzban Node на дополнительном сервере и подключить его к панели. 
+
+
+Используемые файлы:
+<FileTree>
+
+- ~/Marzban-node/
+    - **.env**
+    - **docker-compose.yml**
+</FileTree>
+
+
 ## Установка
 :::note
 Обратите внимание, что и Ваша панель и узел должны быть обновлены до последних `latest` версий 
@@ -87,27 +98,54 @@ import {  Steps } from '@astrojs/starlight/components';
     приведя его к такому виду:
 
     ```yaml
+    // ~/Marzban-node/docker-compose.yml
     services:
       marzban-node:
+        # build: .
         image: gozargah/marzban-node:latest
         restart: always
         network_mode: host
-
+        env_file: .env
         volumes:
           - /var/lib/marzban-node:/var/lib/marzban-node
 
-        environment:
-          SSL_CLIENT_CERT_FILE: "/var/lib/marzban-node/ssl_client_cert.pem"
-          SERVICE_PROTOCOL: rest
     ```
+11. Редактируем файл `.env`
 
+    ```bash
+    sudo nano .env
+    ```   
+    приведя его к такому виду:
+
+    ```yaml
+    // ~/Marzban-node/.env
+    SERVICE_PORT = 62050
+    XRAY_API_PORT = 62051
+    SSL_CLIENT_CERT_FILE = /var/lib/marzban-node/ssl_client_cert.pem
+    SERVICE_PROTOCOL = rest
+
+    ```
+</Steps>
+Доступные переменные окружения
+| Переменная     | Описание  | Значение по умолчанию |
+| -------------- | -------------------- | -----------|
+| `SERVICE_PORT`  | Сервисный порт |62050|
+| `XRAY_API_PORT`   | Порт API xray-core         |62051|
+| `XRAY_EXECUTABLE_PATH` | Путь к исполняемым файлам xray    |/usr/local/bin/xray|
+| `XRAY_ASSETS_PATH`  | Путь к ассетам xray        |/usr/local/share/xray|
+| `SSL_CERT_FILE` | Сертификат узла для связи с панелью            |/var/lib/marzban-node/ssl_cert.pem|
+| `SSL_KEY_FILE`  | Ключ сертификата для связи с панелью   |/var/lib/marzban-node/ssl_key.pem|
+| `SSL_CLIENT_CERT_FILE`  | Сертификат панели для связи с узлом   |/var/lib/marzban-node/ssl_client_cert.pem|
+| `SERVICE_PROTOCOL`  | Сервисный протокол   |rpyc|
+| `DEBUG`  | Вывод отладочной информации   |false|
+<Steps>
 11. Запускаем узел
 
     ```bash
     sudo docker compose up -d
     ```
-
 </Steps>
+
 
 Теперь вернемся в основную панель
 
