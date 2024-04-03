@@ -4,7 +4,7 @@ description: Настройки узла
 sidebar:
  order: 8
 ---
-import {  Steps, FileTree } from '@astrojs/starlight/components';
+import {  Steps, FileTree, Card, CardGrid } from '@astrojs/starlight/components';
 
 :::note
 Если Вы не планируете использовать дополнительные узлы (например для расширения географии Вашего сервиса), можете пропустить данный шаг.
@@ -167,19 +167,21 @@ import {  Steps, FileTree } from '@astrojs/starlight/components';
 
 ### Дополнительные советы
 
-**Совет первый**
+  <Card title="Совет 1" icon="star">
 Если для лучшего управления узлами вы хотите назначить каждому узлу отдельный inbound, вам нужно добавить новый inbound с уникальным тегом и портом в настройках ядра (Core Settings).
-
-**Совет второй**
+  </Card>
+    <Card title="Совет 2" icon="star">
 Если вы планируете использовать конфигурации с TLS, вам нужно получить сертификат для вашего суб-домена узла. Кроме того, вместо нескольких сертификатов для разных субдоменов, вы можете получить один Wildcard сертификат для основного домена, чтобы использовать его для всех субдоменов.
 
-**Совет третий**
+  </Card>
+    <Card title="Совет 3" icon="star">
 Файл `docker-compose.yml` чувствителен к выравниванию строк и пробелам. Для проверки правильности настройки вы можете использовать инструмент `yamlchecker`.
-
-**Совет четвертый**
+  </Card>
+    <Card title="Совет 4" icon="star">
 Если вы внесли изменения в файл `docker-compose.yml`, перезапустите узлы с помощью следующей команды:
 
 ```bash
 cd ~/Marzban-node
 docker compose down --remove-orphans; docker compose up -d
 ```
+  </Card>
