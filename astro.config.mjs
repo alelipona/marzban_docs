@@ -1,27 +1,43 @@
-import { defineConfig, passthroughImageService } from 'astro/config';
+import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 // https://astro.build/config
 export default defineConfig({
-	image: {
-    	service: passthroughImageService()
-  	},
+	site: 'https://docs.marzban.dev',
 	integrations: [
 		starlight({
-			title: 'My Docs',
-			social: {
-				github: 'https://github.com/withastro/starlight',
+			title: 'Marzban',
+
+			defaultLocale: 'root',
+
+			locales: {
+		        root: {
+		          label: 'Русский',
+		          lang: 'ru', 
+		        }
 			},
+			logo: {
+				light: '/src/assets/logo-light.svg',
+				dark: '/src/assets/logo-dark.svg',
+				replacesTitle: true,
+			},
+			social: {
+				github: 'https://github.com/Gozargah/Marzban',
+				telegram: 'https://github.com/Gozargah/Marzban',
+			},
+			pagefind: true,
+			lastUpdated: true,
 			sidebar: [
 				{
-					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', link: '/guides/example/' },
-					],
+					label: 'Первые шаги',
+					autogenerate: { directory: 'start' },
 				},
 				{
-					label: 'Reference',
-					autogenerate: { directory: 'reference' },
+					label: 'Расширенная настройка',
+					autogenerate: { directory: 'advanced' },
+				},
+				{
+					label: 'Руководства',
+					autogenerate: { directory: 'tutorials' },
 				},
 			],
 		}),

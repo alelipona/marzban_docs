@@ -1,0 +1,34 @@
+---
+title: Введение
+description: Небольшое вступление
+sidebar:
+ order: 1
+---
+import { FileTree, Steps } from '@astrojs/starlight/components';
+
+Добро пожаловать в обучающий документ панели Marzban.
+## Минимальные требования
+TODO
+## Файловая структура
+В данной документации мы c Вами будем придерживаться стандартной файловой структуры.
+
+<FileTree>
+
+- /var/lib/marzban/
+  - certs/
+    - fullchain.pem
+    - key.pem
+  - templates/
+    - clash/
+    - home/
+    - mux/
+    - singbox/
+    - subcsription/
+    - v2ray/
+  - xray-core/
+  - db.sqlite3
+  - xray_config.json
+- /opt/marzban/
+  - .env
+  - docker-compose.yml
+</FileTree>
