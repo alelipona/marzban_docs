@@ -1,5 +1,7 @@
 import { defineConfig, passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { rehypeHeadingIds } from '@astrojs/markdown-remark';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 export default defineConfig({
 	site: 'https://docs.marzban.dev',
@@ -9,7 +11,10 @@ export default defineConfig({
   	integrations: [
 		starlight({
 			title: 'Marzban',
-
+			customCss: [
+        		'./src/styles/marzban.css',
+        		'./src/styles/headings.css',
+      		],
 			defaultLocale: 'root',
 
 			locales: {
@@ -45,4 +50,15 @@ export default defineConfig({
 			],
 		}),
 	],
+  markdown: {
+    rehypePlugins: [
+      rehypeHeadingIds,
+      [
+        rehypeAutolinkHeadings,
+        {
+          behavior: 'wrap',
+        },
+      ],
+    ],
+  },
 });
