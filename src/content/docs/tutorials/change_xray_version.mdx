@@ -1,0 +1,109 @@
+---
+title: Смена версии ядра
+description: Смена версии ядра
+sidebar:
+ order: 8
+---
+import {  Steps, FileTree, Card, CardGrid } from '@astrojs/starlight/components';
+
+
+С помощью следующего руководства, Вы сможете изменить ядро вашего Xray-core в Marzban или Marzban Node.
+
+
+Используемые файлы:
+<FileTree>
+- /var/lib/marzban/
+    - **xray_config.json**
+- /opt/marzban/
+    - **.env**
+</FileTree>
+
+## Смена ядра на сервере панели
+<Steps>
+1. Устанаваливаем нужный софт
+
+
+    ```bash
+    sudo apt install wget unzip
+    ```
+
+
+2. Создаем папку для Xray и переходим в нее.
+
+    ```bash
+    sudo mkdir -p /var/lib/marzban/xray-core && cd /var/lib/marzban/xray-core
+    ```
+
+3. Скачиваем нужную версию Xray с помощью wget.
+
+    ```bash
+    wget https://github.com/XTLS/Xray-core/releases/download/v1.8.10/Xray-linux-64.zip
+    ```
+
+4. Извлекаем содержимое и удаляем  архив.
+
+    ```bash
+    unzip Xray-linux-64.zip && rm Xray-linux-64.zip
+    ```
+
+
+5. Указываем панели путь к исполняемым файлам
+    ```bash
+    sudo nano /opt/marzban/.env
+    ```
+    ```diff
+    // /opt/marzban/.env
+    +XRAY_EXECUTABLE_PATH = /var/lib/marzban/xray-core/xray
+    ```
+
+6. Перезапускаем Marzban.
+
+    ```bash
+    sudo marzban restart
+    ```
+</Steps>
+## Смена ядра на сервере узла
+Используемые файлы:
+<FileTree>
+
+- ~/Marzban-node/
+    - **.env**
+    - **docker-compose.yml**
+</FileTree>
+Выполняем шаги с 1-4.
+<Steps>
+5. Указываем узлу путь к исполняемым файлам
+    ```bash
+    sudo nano ~/Marzban-node/.env
+    ```
+
+    ```diff
+    // ~/Marzban-node/.env
+    +XRAY_EXECUTABLE_PATH = /var/lib/marzban/xray-core/xray
+
+    ```
+6. Добавляем /var/lib/marzban в службу, как показано ниже.
+
+    ```bash
+    sudo nano ~/Marzban-node/docker-compose.yml
+    ```
+
+    ```yaml
+    // ~/Marzban-node/docker-compose.yml
+    services:
+      marzban-node:
+        # build: .
+        image: gozargah/marzban-node:latest
+        restart: always
+        network_mode: host
+        env_file: .env
+        volumes:
+          - /var/lib/marzban-node:/var/lib/marzban-node
+          - /var/lib/marzban:/var/lib/marzban
+    ```
+7. Перезапускаем узел
+    ```bash
+    cd ~/Marzban-node
+    docker compose down --remove-orphans; docker compose up -d
+    ```
+</Steps>    
