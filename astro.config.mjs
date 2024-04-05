@@ -34,7 +34,6 @@ export default defineConfig({
 				telegram: 'https://github.com/Gozargah/Marzban',
 			},
 			pagefind: true,
-			lastUpdated: true,
 			sidebar: [
 				{
 					label: 'Первые шаги',
