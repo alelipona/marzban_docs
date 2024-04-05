@@ -2,6 +2,7 @@ import { defineConfig, passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { rehypeHeadingIds } from '@astrojs/markdown-remark';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeExternalLinks from 'rehype-external-links';
 
 export default defineConfig({
 	site: 'https://docs.marzban.dev',
@@ -31,7 +32,7 @@ export default defineConfig({
 			},
 			social: {
 				github: 'https://github.com/Gozargah/Marzban',
-				telegram: 'https://github.com/Gozargah/Marzban',
+				telegram: 'https://t.me/gozargah_marzban',
 			},
 			pagefind: true,
 			sidebar: [
@@ -53,10 +54,17 @@ export default defineConfig({
   markdown: {
     rehypePlugins: [
       rehypeHeadingIds,
+      rehypeExternalLinks,
       [
         rehypeAutolinkHeadings,
         {
           behavior: 'wrap',
+        },
+      ],
+      [
+        rehypeExternalLinks,
+        {
+          content: { type: 'text', value: '↗' }
         },
       ],
     ],
