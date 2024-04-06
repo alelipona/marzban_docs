@@ -3,7 +3,6 @@ import starlight from '@astrojs/starlight';
 import { rehypeHeadingIds } from '@astrojs/markdown-remark';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
-
 export default defineConfig({
 	site: 'https://docs.marzban.dev',
 	image: {
@@ -12,7 +11,7 @@ export default defineConfig({
   	integrations: [
 		starlight({
 			title: 'Marzban',
-			  favicon: '/public/favicon.ico',
+			favicon: '/public/favicon.ico',
 			customCss: [
         		'./src/styles/marzban.css',
         		'./src/styles/headings.css',
