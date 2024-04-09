@@ -12,7 +12,7 @@ export default defineConfig({
   	integrations: [
 		starlight({
 			title: 'Marzban',
-			  favicon: '/public/favicon.ico',
+			favicon: '/public/favicon.ico',
 			customCss: [
         		'./src/styles/marzban.css',
         		'./src/styles/headings.css',

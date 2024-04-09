@@ -64,6 +64,7 @@ wgcf generate
 Вам необходимо отредактировать ваш `xray_config.json` добавив в него новый `OUTBOUND` как в примере ниже, заполнив его данными из`wgcf-profile.conf`
 
 ```json
+    // /var/lib/marzban/xray_config.json
 {
       "tag": "WARP",
       "protocol": "wireguard",
@@ -88,6 +89,7 @@ wgcf generate
 Вам необходимо отредактировать ваш `xray_config.json` добавив в него новый `RULES` как в примере ниже, указав, какие сайты будут отправлять через `WARP`
 
 ```json
+    // /var/lib/marzban/xray_config.json
 {
     "outboundTag": "WARP",
     "domain": [
@@ -112,6 +114,7 @@ cd && bash <(curl -fsSL git.io/warp.sh) proxy
 Вам необходимо отредактировать ваш `xray_config.json` добавив в него новый `OUTBOUND` как в примере ниже
 
 ```json
+    // /var/lib/marzban/xray_config.json
  {
       "tag": "warp",
       "protocol": "socks",
@@ -130,6 +133,7 @@ cd && bash <(curl -fsSL git.io/warp.sh) proxy
 Вам необходимо отредактировать ваш `xray_config.json` добавив в него новый `RULES` как в примере ниже, указав, какие сайты будут отправлять через `WARP`
 
 ```json
+    // /var/lib/marzban/xray_config.json
 {
     "outboundTag": "warp",
     "domain": [
