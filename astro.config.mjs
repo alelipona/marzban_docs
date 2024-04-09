@@ -5,7 +5,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
 
 export default defineConfig({
-	site: 'https://docs.marzban.dev',
+	site: 'https://new.marzban.dev',
 	image: {
     	service: passthroughImageService()
   	},
