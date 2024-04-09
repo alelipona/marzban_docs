@@ -31,9 +31,33 @@ https://xanmod.org
 	```bash
 	echo 'deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main' | sudo tee /etc/apt/sources.list.d/xanmod-release.list
 	``` 
-3. Устанавливаем ядро
+3. Обновляем 
 	```bash
-	sudo apt update && sudo apt install linux-xanmod-x64v3
+	sudo apt update 
+	``` 
+4. Проверяем доступную версию ядра
+
+	```bash
+	wget -qO - https://marzban.dev/check.sh | awk -f -
+	``` 
+</Steps>
+В зависимости от вывода (v1, v2, v3, v4) Вам необходимо указать в следующей команде номер версии
+
+| Ветка | v1				|v2|v3|v4|
+| ----- | -					|-|-|-|
+| MAIN | linux-xanmod-x64v1 | linux-xanmod-x64v2 | linux-xanmod-x64v3 | linux-xanmod-x64v4 |
+| EDGE | -					 | linux-xanmod-edge-x64v2 | linux-xanmod-edge-x64v3 | linux-xanmod-edge-x64v4 |
+| LTS |  linux-xanmod-lts-x64v1 | linux-xanmod-lts-x64v2 | linux-xanmod-lts-x64v3 | linux-xanmod-lts-x64v3 |
+| RT | - | linux-xanmod-rt-x64v2 | linux-xanmod-rt-x64v3 | linux-xanmod-rt-x64v4 |
+
+
+<Steps>
+3. Устанавливаем ядро
+	:::note
+	В данном примере мы устанавливаем  main ветку для v3 (x86-64-v3)
+	:::
+	```bash
+	sudo apt install linux-xanmod-x64v3
 	``` 
 4. перезагрузка
 	```bash
