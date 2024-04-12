@@ -29,6 +29,7 @@ export default defineConfig({
 			customCss: [
         		'./src/styles/marzban.css',
         		'./src/styles/headings.css',
+        		'./src/fonts/font-face.css',
       		],
 			defaultLocale: 'root',
 
