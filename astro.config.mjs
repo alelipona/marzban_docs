@@ -65,11 +65,6 @@ export default defineConfig({
 					label: 'Руководства',
 					autogenerate: { directory: 'tutorials' },
 				},
-				{ 
-					label: 'Обновления',
-				 	link: '/news',
-				 	badge: 'New',
-				},
 			],
 		}),
 	],
