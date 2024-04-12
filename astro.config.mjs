@@ -3,6 +3,7 @@ import starlight from '@astrojs/starlight';
 import { rehypeHeadingIds } from '@astrojs/markdown-remark';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
+import starlightBlog from 'starlight-blog'
 
 export default defineConfig({
 	site: 'https://new.marzban.dev',
@@ -12,6 +13,18 @@ export default defineConfig({
   	integrations: [
 		starlight({
 			title: 'Marzban',
+			editLink: {
+        baseUrl: 'https://github.com/iambabyninja/marzban_docs/edit/main/docs/',
+      },
+			components: {
+        Sidebar: './src/components/Sidebar.astro',
+      },
+      plugins: [
+      	starlightBlog({
+      		title: 'Блог',
+      	},
+      		)
+      	],
 			favicon: '/public/favicon.ico',
 			customCss: [
         		'./src/styles/marzban.css',
@@ -43,6 +56,10 @@ export default defineConfig({
 				{
 					label: 'Расширенная настройка',
 					autogenerate: { directory: 'advanced' },
+				},
+				{
+					label: 'Компоненты',
+					autogenerate: { directory: 'components' },
 				},
 				{
 					label: 'Руководства',
