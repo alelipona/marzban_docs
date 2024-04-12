@@ -37,9 +37,9 @@ import {  Steps, FileTree } from '@astrojs/starlight/components';
 	sudo apt install cron socat
 	```
 2. Установка acme.sh
-	
+	:::note
 	`EMAIL` — ваш email (можно указать любой).
-
+	:::
 	```bash
 	curl https://get.acme.sh | sh -s email=EMAIL
 	```
@@ -49,9 +49,9 @@ import {  Steps, FileTree } from '@astrojs/starlight/components';
 	sudo mkdir -p /var/lib/marzban/certs/
 	```
 4. Получение сертификатов
-
+	:::note
 	Замените `DOMAIN` на ваш домен или субдомен.
-
+	:::
 	```bash
 	~/.acme.sh/acme.sh --set-default-ca --server letsencrypt --issue --standalone -d DOMAIN \
 	--key-file /var/lib/marzban/certs/key.pem \
@@ -67,9 +67,9 @@ import {  Steps, FileTree } from '@astrojs/starlight/components';
 	sudo apt install cron socat
 	```
 2. Установка acme.sh
-	
+	:::note
 	`EMAIL` — ваш email (можно указать любой).
-
+	:::
 	```bash
 	curl https://get.acme.sh | sh -s email=EMAIL
 	```
@@ -93,9 +93,9 @@ import {  Steps, FileTree } from '@astrojs/starlight/components';
 	```
 
 6. Выпуск wildcard сертификата
-
+	:::note
 	Замените `DOMAIN` на ваш домен.
-
+	:::
 	```bash
 	~/.acme.sh/acme.sh --set-default-ca --server letsencrypt --issue --dns dns_cf \
 	-d DOMAIN \
@@ -106,7 +106,7 @@ import {  Steps, FileTree } from '@astrojs/starlight/components';
 
 </Steps>
 
-
+## Дополнительные советы
 :::tip 
 Для просмотра списка выпущенных сертификатов:
 
