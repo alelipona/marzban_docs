@@ -5,21 +5,11 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
 
 export default defineConfig({
-		site: 'https://new.marzban.dev',
-			  	vite: {
-	    optimizeDeps: {
-	      exclude: [
-	        "fsevents",
-	        "@node-rs",
-	        "@napi-rs",
-	      ],
-	    },
-	  },
-		image: {
-	    	service: passthroughImageService()
-	  	},
-	  	integrations: [
-
+	site: 'https://new.marzban.dev',
+	image: {
+    	service: passthroughImageService()
+  	},
+  	integrations: [
 		starlight({
 			title: 'Marzban',
 			editLink: {
