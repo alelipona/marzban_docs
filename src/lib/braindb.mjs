@@ -1,0 +1,28 @@
+import { slug as githubSlug } from "github-slugger";
+import path from "node:path";
+import process from "node:process";
+import { BrainDB } from "@braindb/core";
+
+
+const generateSlug = (filePath) => {
+  const withoutFileExt = filePath.replace(
+    new RegExp(path.extname(filePath) + "$"),
+    ""
+  );
+  const rawSlugSegments = withoutFileExt.split(path.sep);
+  const slug = rawSlugSegments
+
+    .map((segment) => githubSlug(segment))
+    .join("/")
+    .replace(/\/index$/, "");
+
+  return slug;
+};
+
+export const bdb = new BrainDB({
+  root: path.resolve(process.cwd(), "src/content/docs"),
+  url: (filePath, _frontmatter) => `${generateSlug(filePath)}/`,
+  git: process.cwd(),
+});
+
+bdb.start();
