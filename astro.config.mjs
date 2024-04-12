@@ -3,7 +3,6 @@ import starlight from '@astrojs/starlight';
 import { rehypeHeadingIds } from '@astrojs/markdown-remark';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
-import starlightBlog from 'starlight-blog'
 
 export default defineConfig({
 	site: 'https://new.marzban.dev',
@@ -19,12 +18,6 @@ export default defineConfig({
 			components: {
         Sidebar: './src/components/Sidebar.astro',
       },
-      plugins: [
-      	starlightBlog({
-      		title: 'Блог',
-      	},
-      		)
-      	],
 			favicon: '/public/favicon.ico',
 			customCss: [
         		'./src/styles/marzban.css',
