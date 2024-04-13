@@ -7,7 +7,7 @@ import rehypeExternalLinks from 'rehype-external-links';
 export default defineConfig({
 	site: 'https://new.marzban.dev',
 	image: {
-    	service: passthroughImageService()
+    	// service: passthroughImageService()
   	},
   	integrations: [
 		starlight({
@@ -17,6 +17,7 @@ export default defineConfig({
       },
 			components: {
         Sidebar: './src/components/Sidebar.astro',
+        Head: './src/components/Head.astro',
       },
 			favicon: '/public/favicon.ico',
 			customCss: [
