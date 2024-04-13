@@ -6,9 +6,9 @@ import rehypeExternalLinks from "rehype-external-links";
 
 export default defineConfig({
   site: "https://new.marzban.dev",
-  image: {
-     service: passthroughImageService()
-  },
+//  image: {
+//     service: passthroughImageService()
+//  },
   integrations: [
     starlight({
       title: "Marzban",
