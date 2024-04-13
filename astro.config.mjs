@@ -17,7 +17,6 @@ export default defineConfig({
       },
 			components: {
         Sidebar: './src/components/Sidebar.astro',
-        PageFrame: "./src/components/PageFrame.astro",
       },
 			favicon: '/public/favicon.ico',
 			customCss: [
