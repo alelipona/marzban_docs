@@ -3,7 +3,6 @@ import starlight from '@astrojs/starlight';
 import { rehypeHeadingIds } from '@astrojs/markdown-remark';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
-import remarkMermaidjs from "remark-mermaidjs";
 
 export default defineConfig({
 	site: 'https://new.marzban.dev',
@@ -24,7 +23,6 @@ export default defineConfig({
         		'./src/styles/marzban.css',
         		'./src/styles/headings.css',
         		'./src/fonts/font-face.css',
-        		'./src/styles/mermaid.css',
       		],
 			defaultLocale: 'root',
 
@@ -65,7 +63,6 @@ export default defineConfig({
 		}),
 	],
   markdown: {
-  	remarkPlugins: [remarkMermaidjs],
     rehypePlugins: [
       rehypeHeadingIds,
       rehypeExternalLinks,
@@ -78,7 +75,7 @@ export default defineConfig({
       [
         rehypeExternalLinks,
         {
-          content: { type: 'text', value: ' ↗' }
+          content: { type: 'text', value: '↗' }
         },
       ],
     ],
