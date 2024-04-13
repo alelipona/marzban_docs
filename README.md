@@ -1,5 +1,21 @@
+# Документация Marzban 
 
-<h1 align="center"/>Документация Marzban на Русском</h1>
+## 🔗 Looking for the main package?
+
+[Перейти к `содержимому` →](/src/content/docs/)
+
+## 🚀 Структура проекта 
+
+TODO
+
+## 🧞 Команды 
+
+| Command       | Action                |
+| :------------ | :-------------------- |
+| `npm install` | Installs dependencies |
+| `npm run `    | Run                   |
+
+
 <p align="center">
     <a href="#">
         <img src="https://img.shields.io/github/actions/workflow/status/gozargah/marzban/build.yml?style=flat-square" />
