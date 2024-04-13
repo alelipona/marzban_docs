@@ -2,9 +2,10 @@
 title: Варианты подключений
 description: В данном руководстве, мы рассмотрим все возможные настройки inbound в xray-core
 sidebar:
- order: 3
+  order: 3
 ---
-import {  Steps, FileTree } from '@astrojs/starlight/components';
+
+import { Steps, FileTree } from "@astrojs/starlight/components";
 
 В данном примере мы рассмотрим все варианты inbound доступные в xray-core
 
@@ -17,7 +18,7 @@ import {  Steps, FileTree } from '@astrojs/starlight/components';
 :::
 
 :::caution
-для Reality необходимо сгенерировать закрытый и открытый ключ 
+для Reality необходимо сгенерировать закрытый и открытый ключ
 
 `docker exec marzban-marzban-1 xray x25519`
 :::
@@ -28,13 +29,14 @@ import {  Steps, FileTree } from '@astrojs/starlight/components';
 `openssl rand -hex 8`
 :::
 
-
 Используемые файлы:
+
 <FileTree>
 
-- /var/lib/marzban/
-    - **xray-config.json**
+    - /var/lib/marzban/ 
+        - **xray-config.json**
 </FileTree>
+
 ## VLESS
 
 ### VLESS **TCP** REALITY
@@ -725,16 +727,16 @@ import {  Steps, FileTree } from '@astrojs/starlight/components';
 ## SHADOWSOCKS
 
 ```json
-    {
-        "tag": "SHADOWSOCKS",
-        "listen": "0.0.0.0",
-        "port": 2060,
-        "protocol": "shadowsocks",
-        "settings": {
-            "clients": [],
-            "network": "tcp,udp"
-        }
-    }
+{
+  "tag": "SHADOWSOCKS",
+  "listen": "0.0.0.0",
+  "port": 2060,
+  "protocol": "shadowsocks",
+  "settings": {
+    "clients": [],
+    "network": "tcp,udp"
+  }
+}
 ```
 
 ## WIREGUARD

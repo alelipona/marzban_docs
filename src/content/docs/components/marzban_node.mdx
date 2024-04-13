@@ -1,10 +1,11 @@
 ---
 title: Узлы
-description: В данном руководстве, мы рассмотрим marzban-node компонент 
+description: В данном руководстве, мы рассмотрим marzban-node компонент
 sidebar:
- order: 1
+  order: 1
 ---
-import {  Steps, FileTree, Card, CardGrid } from '@astrojs/starlight/components';
+
+import { Steps, FileTree, Card, CardGrid } from "@astrojs/starlight/components";
 
 :::note
 Если Вы не планируете использовать дополнительные узлы (например для расширения географии Вашего сервиса), можете пропустить данный шаг.
@@ -15,40 +16,41 @@ import {  Steps, FileTree, Card, CardGrid } from '@astrojs/starlight/components'
 :::
 
 ## Введение
+
 **Marzban Node** - это приложение на Python, предоставляющее сервис для управления экземпляром ядра Xray.
-Приложение разработано с учетом требований безопасности и использует взаимную аутентификацию самоподписанными SSL-сертификатами, для связи между панелью и ее клиентами(узлами). 
+Приложение разработано с учетом требований безопасности и использует взаимную аутентификацию самоподписанными SSL-сертификатами, для связи между панелью и ее клиентами(узлами).
 
 В зависимости от Вашего выбора, приложение может использовать или RPyC для удаленных вызовов процедур, или REST, используя стандартные HTTP-методы (GET, POST, PUT, DELETE и т.д.) для выполнения различных операций.
 
-С помощью этого руководства вы можете создать узел Marzban Node на дополнительном сервере и подключить его к панели. 
-
+С помощью этого руководства вы можете создать узел Marzban Node на дополнительном сервере и подключить его к панели.
 
 Используемые файлы:
+
 <FileTree>
 
-- ~/Marzban-node/
-    - **.env**
-    - **docker-compose.yml**
+    - ~/Marzban-node/ 
+        - **.env** 
+        - **docker-compose.yml**
 </FileTree>
 
-
 ## Установка
+
 :::note
-Обратите внимание, что и Ваша панель и узел должны быть обновлены до последних `latest` версий 
+Обратите внимание, что и Ваша панель и узел должны быть обновлены до последних `latest` версий
 :::
+
 ### Получение ключа
 
 <Steps>
-1. Открываем настройка узлов 
-  ![screenshot](../../../assets/start/node_settings/node_connect.png)
-2. Переходим в меню добавление нового узла
-3. Скачиваем сертификат    
-  ![screenshot](../../../assets/start/node_settings/node_download.png)
-4. Или, копируем его значение из меню.
+  1. Открываем настройка узлов
+  ![screenshot](../../../assets/start/node_settings/node_connect.png) 2.
+  Переходим в меню добавление нового узла 3. Скачиваем сертификат
+  ![screenshot](../../../assets/start/node_settings/node_download.png) 4. Или,
+  копируем его значение из меню.
   ![screenshot](../../../assets/start/node_settings/node_show.png)
 </Steps>
 
-Теперь переходим на наш узел. 
+Теперь переходим на наш узел.
 
 ### Настройка узла
 
@@ -94,7 +96,7 @@ import {  Steps, FileTree, Card, CardGrid } from '@astrojs/starlight/components'
 
     ```bash
     sudo nano docker-compose.yml
-    ```   
+    ```
     приведя его к такому виду:
 
     ```yaml
@@ -110,21 +112,23 @@ import {  Steps, FileTree, Card, CardGrid } from '@astrojs/starlight/components'
           - /var/lib/marzban-node:/var/lib/marzban-node
 
     ```
+
 11. Редактируем файл `.env`
 
-    ```bash
-    sudo nano .env
-    ```   
-    приведя его к такому виду:
+        ```bash
+        sudo nano .env
+        ```
+        приведя его к такому виду:
 
-    ```yaml
-    // ~/Marzban-node/.env
-    SERVICE_PORT = 62050
-    XRAY_API_PORT = 62051
-    SSL_CLIENT_CERT_FILE = /var/lib/marzban-node/ssl_client_cert.pem
-    SERVICE_PROTOCOL = rest
+        ```yaml
+        // ~/Marzban-node/.env
+        SERVICE_PORT = 62050
+        XRAY_API_PORT = 62051
+        SSL_CLIENT_CERT_FILE = /var/lib/marzban-node/ssl_client_cert.pem
+        SERVICE_PROTOCOL = rest
 
-    ```
+        ```
+
 </Steps>
 Доступные переменные окружения
 | Переменная     | Описание  | Значение по умолчанию |
@@ -139,30 +143,34 @@ import {  Steps, FileTree, Card, CardGrid } from '@astrojs/starlight/components'
 | `SERVICE_PROTOCOL`  | Сервисный протокол   |rpyc|
 | `DEBUG`  | Вывод отладочной информации   |false|
 <Steps>
-11. Запускаем узел
 
-    ```bash
-    sudo docker compose up -d
-    ```
+12. Запускаем узел
+
+        ```bash
+        sudo docker compose up -d
+        ```
+
 </Steps>
-
 
 Теперь вернемся в основную панель
 
-### Настройка панели 
+### Настройка панели
+
 <Steps>
 1. Открываем настройки узлов
 
     ![screenshot](../../../assets/start/node_settings/node_add.png)
+
 2. Заполняем данные узла:
 
-    * Name - Имя узла;
-    * Adress - IP адрес узла.
-    * Port - Оставляем по умолчанию, если не изменяли их.
+   - Name - Имя узла;
+   - Adress - IP адрес узла.
+   - Port - Оставляем по умолчанию, если не изменяли их.
 
-    Оставляем галку, если хотим добавить узел в качестве нового хоста во все входящие
+   Оставляем галку, если хотим добавить узел в качестве нового хоста во все входящие
+
 3. Жмем `Добавить узел`
-    Если Вы не нажали галку `добавить узел в качестве нового хоста во все входящие`, Вы всегда сможете добавить узел в любой inbound, после ее подключения, просто указав ее адрес (IP или домен/суб-домен)
+   Если Вы не нажали галку `добавить узел в качестве нового хоста во все входящие`, Вы всегда сможете добавить узел в любой inbound, после ее подключения, просто указав ее адрес (IP или домен/суб-домен)
 </Steps>
 
 ### Дополнительные советы
@@ -184,4 +192,5 @@ import {  Steps, FileTree, Card, CardGrid } from '@astrojs/starlight/components'
 cd ~/Marzban-node
 docker compose down --remove-orphans; docker compose up -d
 ```
+
   </Card>
