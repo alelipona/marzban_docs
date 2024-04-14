@@ -13,7 +13,7 @@ export default defineConfig({
     starlight({
       title: "Marzban",
       editLink: {
-        baseUrl: "https://github.com/iambabyninja/marzban_docs/edit/main/",
+        baseUrl: "https://github.com/iambabyninja/marzban_docs/edit/master",
       },
       components: {
         Sidebar: "./src/components/Sidebar.astro",
