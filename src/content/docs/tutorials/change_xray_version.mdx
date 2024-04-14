@@ -72,17 +72,7 @@ import {  Steps, FileTree, Card, CardGrid } from '@astrojs/starlight/components'
 </FileTree>
 Выполняем шаги с 1-4.
 <Steps>
-5. Указываем узлу путь к исполняемым файлам
-    ```bash
-    sudo nano ~/Marzban-node/.env
-    ```
-
-    ```diff
-    // ~/Marzban-node/.env
-    +XRAY_EXECUTABLE_PATH = /var/lib/marzban/xray-core/xray
-
-    ```
-6. Добавляем /var/lib/marzban в службу, как показано ниже.
+5. Устанавливаем значение переменной `XRAY_EXECUTABLE_PATH` 
 
     ```bash
     sudo nano ~/Marzban-node/docker-compose.yml
@@ -92,16 +82,20 @@ import {  Steps, FileTree, Card, CardGrid } from '@astrojs/starlight/components'
     // ~/Marzban-node/docker-compose.yml
     services:
       marzban-node:
-        # build: .
         image: gozargah/marzban-node:latest
         restart: always
         network_mode: host
-        env_file: .env
+
         volumes:
           - /var/lib/marzban-node:/var/lib/marzban-node
-          - /var/lib/marzban:/var/lib/marzban
+
+        environment:
+          SSL_CLIENT_CERT_FILE: "/var/lib/marzban-node/ssl_client_cert.pem"
+          SERVICE_PROTOCOL: rest
+          XRAY_EXECUTABLE_PATH: "/var/lib/marzban/xray-core/xray"
+
     ```
-7. Перезапускаем узел
+6. Перезапускаем узел
     ```bash
     cd ~/Marzban-node
     docker compose down --remove-orphans; docker compose up -d

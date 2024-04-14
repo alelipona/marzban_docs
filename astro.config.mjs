@@ -5,7 +5,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
 
 export default defineConfig({
-  site: "https://new.marzban.dev",
+  site: "https://docs.marzban.dev",
 //  image: {
 //     service: passthroughImageService()
 //  },
@@ -47,6 +47,10 @@ export default defineConfig({
         {
           label: "Первые шаги",
           autogenerate: { directory: "start" },
+        },
+        {
+          label: "Интерфейс",
+          autogenerate: { directory: "ui" },
         },
         {
           label: "Расширенная настройка",

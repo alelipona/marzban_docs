@@ -2,7 +2,8 @@
 title: Исправляем ошибку 403
 description: С помощью данного руководства, Вы сможете исправить получаемую ошибку 403 на некоторых сервисах
 ---
-import {  Steps, FileTree, Card, CardGrid } from '@astrojs/starlight/components';
+
+import { Steps, FileTree, Card, CardGrid } from "@astrojs/starlight/components";
 
 В большинстве своем, получении ошибки 403 на различных сайтах, означает что диапазон IPv6 который Вы используете - "грязный", и находится в черном списке у адресата.
 
@@ -11,10 +12,9 @@ import {  Steps, FileTree, Card, CardGrid } from '@astrojs/starlight/components'
 Используемые файлы:
 
 <FileTree>
-    - /var/lib/marzban/
-       - **xray_config.json**
+    - /var/lib/marzban/ 
+        - **xray_config.json**
 </FileTree>
-
 
 Открываем `xray_config.conf`
 
@@ -32,29 +32,31 @@ sudo nano /var/lib/marzban/xray_config.json
 ```json
 // /var/lib/marzban/xray_config.json
 {
-    "tag": "IPv4",
-    "protocol": "freedom",
-    "settings": {
-        "domainStrategy": "UseIPv4"
-    }
+  "tag": "IPv4",
+  "protocol": "freedom",
+  "settings": {
+    "domainStrategy": "UseIPv4"
+  }
 }
 ```
 
 ### Часть RULES
+
 :::caution
-Убедитесь что в части `routing` обьявлено 
+Убедитесь что в части `routing` обьявлено
+
 ```
 "domainStrategy": "IPIfNonMatch",
 ```
+
 :::
 поместите ниже указанное правило в секцию `rules`
+
 ```json
 // /var/lib/marzban/xray_config.json
 {
-    "type": "field",
-    "outboundTag": "IPv4",
-    "domain": [
-        "geosite:google"
-    ]
+  "type": "field",
+  "outboundTag": "IPv4",
+  "domain": ["geosite:google"]
 }
 ```

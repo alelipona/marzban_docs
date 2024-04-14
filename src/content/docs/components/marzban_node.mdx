@@ -103,31 +103,18 @@ import { Steps, FileTree, Card, CardGrid } from "@astrojs/starlight/components";
     // ~/Marzban-node/docker-compose.yml
     services:
       marzban-node:
-        # build: .
         image: gozargah/marzban-node:latest
         restart: always
         network_mode: host
-        env_file: .env
+
         volumes:
           - /var/lib/marzban-node:/var/lib/marzban-node
 
+        environment:
+          SSL_CLIENT_CERT_FILE: "/var/lib/marzban-node/ssl_client_cert.pem"
+          SERVICE_PROTOCOL: rest
+
     ```
-
-11. Редактируем файл `.env`
-
-        ```bash
-        sudo nano .env
-        ```
-        приведя его к такому виду:
-
-        ```yaml
-        // ~/Marzban-node/.env
-        SERVICE_PORT = 62050
-        XRAY_API_PORT = 62051
-        SSL_CLIENT_CERT_FILE = /var/lib/marzban-node/ssl_client_cert.pem
-        SERVICE_PROTOCOL = rest
-
-        ```
 
 </Steps>
 Доступные переменные окружения
@@ -144,7 +131,7 @@ import { Steps, FileTree, Card, CardGrid } from "@astrojs/starlight/components";
 | `DEBUG`  | Вывод отладочной информации   |false|
 <Steps>
 
-12. Запускаем узел
+11. Запускаем узел
 
         ```bash
         sudo docker compose up -d
