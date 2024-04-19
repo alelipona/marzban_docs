@@ -53,11 +53,11 @@ import { Steps, FileTree } from "@astrojs/starlight/components";
    :::note
    Замените `DOMAIN` на ваш домен или субдомен.
    :::
-   ```bash
+   `bash
 	~/.acme.sh/acme.sh --set-default-ca --server letsencrypt --issue --standalone -d DOMAIN \
 	--key-file /var/lib/marzban/certs/key.pem \
 	--fullchain-file /var/lib/marzban/certs/fullchain.pem
-	```
+	`
 </Steps>
 
 ## Получение WILDCARD сертификата с acme.sh
