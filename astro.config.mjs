@@ -3,6 +3,8 @@ import starlight from "@astrojs/starlight";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
+import swup from '@swup/astro';
+
 
 export default defineConfig({
   site: "https://docs.marzban.dev",
@@ -10,6 +12,7 @@ export default defineConfig({
 //     service: passthroughImageService()
 //  },
   integrations: [
+    swup(),
     starlight({
       title: "Marzban",
       editLink: {
