@@ -79,20 +79,12 @@ import { Steps, FileTree, Card, CardGrid } from "@astrojs/starlight/components";
     ```bash
     sudo mkdir -p /var/lib/marzban-node/
     ```
-7. Устанавливаем Docker
-    ```bash
-    sudo curl -fsSL https://get.docker.com | sh
-    ```
-8. Создаем папку, куда поместим наш сертификат
-    ```bash
-    sudo mkdir -p /var/lib/marzban-node/
-    ```
-9. Копируем ранее полученный ключ
+7. Копируем ранее полученный ключ
     ```bash
     sudo nano /var/lib/marzban-node/ssl_client_cert.pem
     ```
     ![screenshot](../../../assets/start/node_settings/node6.jpg)      
-10. Редактируем файл `docker-compose.yml`
+8. Редактируем файл `docker-compose.yml`
 
     ```bash
     sudo nano docker-compose.yml
@@ -131,7 +123,7 @@ import { Steps, FileTree, Card, CardGrid } from "@astrojs/starlight/components";
 | `DEBUG`  | Вывод отладочной информации   |false|
 <Steps>
 
-11. Запускаем узел
+9. Запускаем узел
 
         ```bash
         sudo docker compose up -d
