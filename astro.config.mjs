@@ -3,6 +3,7 @@ import starlight from "@astrojs/starlight";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
+import starlightOpenAPI, { openAPISidebarGroups } from 'starlight-openapi'
 
 export default defineConfig({
   site: "https://docs.marzban.dev",
@@ -12,6 +13,15 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Marzban",
+      plugins: [
+        starlightOpenAPI([
+          {
+           base: 'api',
+           label: 'API',
+           schema: './src/api/openapi.json',
+          },
+        ]),
+      ],
       editLink: {
         baseUrl: "https://github.com/iambabyninja/marzban_docs/edit/master",
       },
@@ -58,7 +68,14 @@ export default defineConfig({
         },
         {
           label: "Компоненты",
-          autogenerate: { directory: "components" },
+          items:[
+            ...openAPISidebarGroups,
+            { label: 'Узлы', link: 'components/marzban_node/' },
+            { label: 'Подписки', link: 'components/subscriptions/' },
+            { label: 'Telegram бот', link: 'components/telegram_bot/' },
+            { label: 'CLI', link: 'components/cli/' },
+            { label: 'WebHook', link: 'components/webhook/' },            
+          ],
         },
         {
           label: "Руководства",
