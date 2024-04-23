@@ -3,22 +3,22 @@ import starlight from "@astrojs/starlight";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
-import starlightOpenAPI, { openAPISidebarGroups } from 'starlight-openapi'
+import starlightOpenAPI, { openAPISidebarGroups } from "starlight-openapi";
 
 export default defineConfig({
   site: "https://docs.marzban.dev",
-//  image: {
-//     service: passthroughImageService()
-//  },
+  //  image: {
+  //     service: passthroughImageService()
+  //  },
   integrations: [
     starlight({
       title: "Marzban",
       plugins: [
         starlightOpenAPI([
           {
-           base: 'api',
-           label: 'API',
-           schema: './src/api/openapi.json',
+            base: "api",
+            label: "API",
+            schema: "./src/api/openapi.json",
           },
         ]),
       ],
@@ -30,11 +30,7 @@ export default defineConfig({
         Head: "./src/components/Head.astro",
       },
       favicon: "/public/favicon.ico",
-      customCss: [
-        "./src/styles/marzban.css",
-        "./src/styles/headings.css",
-        "./src/fonts/font-face.css",
-      ],
+      customCss: ["./src/styles/headings.css"],
       defaultLocale: "root",
 
       locales: {
@@ -68,13 +64,13 @@ export default defineConfig({
         },
         {
           label: "Компоненты",
-          items:[
+          items: [
             ...openAPISidebarGroups,
-            { label: 'Узлы', link: 'components/marzban_node/' },
-            { label: 'Подписки', link: 'components/subscriptions/' },
-            { label: 'Telegram бот', link: 'components/telegram_bot/' },
-            { label: 'CLI', link: 'components/cli/' },
-            { label: 'WebHook', link: 'components/webhook/' },            
+            { label: "Узлы", link: "components/marzban_node/" },
+            { label: "Подписки", link: "components/subscriptions/" },
+            { label: "Telegram бот", link: "components/telegram_bot/" },
+            { label: "CLI", link: "components/cli/" },
+            { label: "WebHook", link: "components/webhook/" },
           ],
         },
         {
