@@ -2,27 +2,27 @@
 title: Настройка подключений на одном порту
 description: В данном руководстве мы осуществим настройку всех подключений на одном 443 порту
 sidebar:
- order: 4
+  order: 4
 ---
 
-import {  Steps, FileTree } from '@astrojs/starlight/components';
+import { Steps, FileTree } from "@astrojs/starlight/components";
 
-С помощью этого руководства Вы сможете установить все соединения с вашим сервером (панель, TLS-конфигурация и REALITY) через один порт. 
+С помощью этого руководства Вы сможете установить все соединения с вашим сервером (панель, TLS-конфигурация и REALITY) через один порт.
 Целью этого, является задача сделать подключения к серверу более естественным и обойти ограничения на одном порту.
 
 В этом руководстве мы используем инструмент HAProxy для достижения нашей цели.
 :::note
-В дальнейшем предполагается, что: 
-* поддомен панели - `panel.example.com` 
-* поддомен подписки - `sub.example.com` 
-* поддомен, связанный с CDN - `cdn.example.com` 
-* SNI в конфигурации REALITY - `reality_domain.com`
+В дальнейшем предполагается, что:
+
+- поддомен панели - `panel.example.com`
+- поддомен подписки - `sub.example.com`
+- поддомен, связанный с CDN - `cdn.example.com`
+- SNI в конфигурации REALITY - `reality_domain.com`
 
 Не забудьте во всех примерах изменить их на свои
 :::
 
-
-Итак, в этом руководстве мы сначала установим и настроим HAProxy, а затем внесем необходимые изменения в конфигурации и панель, чтобы принимать весь трафик на один порт. 
+Итак, в этом руководстве мы сначала установим и настроим HAProxy, а затем внесем необходимые изменения в конфигурации и панель, чтобы принимать весь трафик на один порт.
 
 ## Установка и настройка HAProxy
 
@@ -31,7 +31,6 @@ import {  Steps, FileTree } from '@astrojs/starlight/components';
 
 Кроме того, если в будущем вы планируете применять более сложные правила, не забудьте установить HAProxy из его основного репозитория, а не из репозиториев Linux.
 :::
-
 
 Сначала выполните следующие команды для установки:
 
@@ -48,15 +47,15 @@ apt install -y haproxy
 nano /etc/haproxy/haproxy.cfg
 ```
 
-Настройки HAProxy включают один или несколько фронтендов и один или несколько бэкендов. 
+Настройки HAProxy включают один или несколько фронтендов и один или несколько бэкендов.
 Каждый фронтенд направляет трафик к одному из бэкендов на основе определенных в нем правил. Понимание этих двух принципов в конфигурации HAProxy помогает нам настроить его более эффективно.
 
 При внимательном рассмотрении этой конфигурации вы заметите, что с ее помощью HAProxy прослушивает порт 443 и принимает весь трафик. Затем, в зависимости от SNI (Server Name Indication) полученного трафика, он перенаправляет его на «локальный» порт сервера, что позволяет нам различать разные виды трафика.
 
 Теперь добавьте следующую конфигурацию в конец файла, внесите необходимые изменения в соответствии с инструкциями и сохраните его.
 
-:::note 
-Если у Вас панель и подписка на одном домене или на одном домене без саб-доменов, или Вы не используете CDN, Вы можете смело удалять соответсвующие правила и бэкенды 
+:::note
+Если у Вас панель и подписка на одном домене или на одном домене без саб-доменов, или Вы не используете CDN, Вы можете смело удалять соответсвующие правила и бэкенды
 :::
 :::tip
 Вы можете использовать `or` для перечисления правил:
@@ -106,7 +105,6 @@ backend panel
 systemctl restart haproxy
 ```
 
-
 ## Подготовка конфигураций
 
 ### Подготовка конфигурации REALITY
@@ -120,7 +118,7 @@ systemctl restart haproxy
 :::
 
 :::danger
-Если конфигурация имеет `send-proxy` в конце  бэкенда HAProxy , но не имеет `acceptProxyProtocol: true`, соединение не будет установлено.
+Если конфигурация имеет `send-proxy` в конце бэкенда HAProxy , но не имеет `acceptProxyProtocol: true`, соединение не будет установлено.
 :::
 
 :::danger
@@ -128,11 +126,12 @@ systemctl restart haproxy
 :::
 
 :::note
-для Reality генерация `privateKey`  выполняется
+для Reality генерация `privateKey` выполняется
 
 ```bash
 docker exec marzban-marzban-1 xray x25519
 ```
+
 :::
 
 ```json
@@ -155,25 +154,17 @@ docker exec marzban-marzban-1 xray x25519
       "show": false,
       "dest": "reality_domain.com:443",
       "xver": 0,
-      "serverNames": [
-        "reality_domain.com"
-      ],
+      "serverNames": ["reality_domain.com"],
       "privateKey": "x",
-      "shortIds": [
-        ""
-      ]
+      "shortIds": [""]
     }
   },
   "sniffing": {
     "enabled": true,
-    "destOverride": [
-      "http",
-      "tls"
-    ]
+    "destOverride": ["http", "tls"]
   }
 }
 ```
-
 
 С этими изменениями ваши инбаунды будут слушать не на 0.0.0.0, а на 127.0.0.1, и вы сможете создавать любое количество инбаундов с разными локальными портами и разделять их в HAProxy на основе SNI.
 
@@ -185,145 +176,141 @@ docker exec marzban-marzban-1 xray x25519
 
 ```json
 {
-    "tag": "TROJAN_FALLBACK_INBOUND",
-    "port": 11000,
-    "protocol": "trojan",
-    "settings": {
-        "clients": [],
-        "decryption": "none",
-        "fallbacks": [
-            {
-                "path": "/lw",
-                "dest": "@vless-ws",
-                "xver": 2
-            },
-            {
-                "path": "/mw",
-                "dest": "@vmess-ws",
-                "xver": 2
-            },
-            {
-                "path": "/tw",
-                "dest": "@trojan-ws",
-                "xver": 2
-            }
-        ]
-    },
-    "streamSettings": {
-        "network": "tcp",
-        "security": "tls",
-        "tlsSettings": {
-            "serverName": "SERVER_NAME",
-            "certificates": [
-                {
-                    "ocspStapling": 3600,
-                    "certificateFile": "/var/lib/marzban/certs/fullchain.pem",
-                    "keyFile": "/var/lib/marzban/certs/key.pem"
-                }
-            ],
-            "minVersion": "1.2",
-            "cipherSuites": "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256:TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
-            "alpn": [
-                "http/1.1"
-            ]
+  "tag": "TROJAN_FALLBACK_INBOUND",
+  "port": 11000,
+  "protocol": "trojan",
+  "settings": {
+    "clients": [],
+    "decryption": "none",
+    "fallbacks": [
+      {
+        "path": "/lw",
+        "dest": "@vless-ws",
+        "xver": 2
+      },
+      {
+        "path": "/mw",
+        "dest": "@vmess-ws",
+        "xver": 2
+      },
+      {
+        "path": "/tw",
+        "dest": "@trojan-ws",
+        "xver": 2
+      }
+    ]
+  },
+  "streamSettings": {
+    "network": "tcp",
+    "security": "tls",
+    "tlsSettings": {
+      "serverName": "SERVER_NAME",
+      "certificates": [
+        {
+          "ocspStapling": 3600,
+          "certificateFile": "/var/lib/marzban/certs/fullchain.pem",
+          "keyFile": "/var/lib/marzban/certs/key.pem"
         }
-    },
-    "sniffing": {
-        "enabled": true,
-        "destOverride": [
-            "http",
-            "tls"
-        ]
+      ],
+      "minVersion": "1.2",
+      "cipherSuites": "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256:TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+      "alpn": ["http/1.1"]
     }
-},
+  },
+  "sniffing": {
+    "enabled": true,
+    "destOverride": ["http", "tls"]
+  }
+}
 ```
 
-Для лучшего использования этой возможности полезно понять ее концепцию и работу. 
+Для лучшего использования этой возможности полезно понять ее концепцию и работу.
 
 fallback работает следующим образом: если входящий трафик соответствует этому инбаунду, он принимается, а если нет, он перенаправляется на другие инбаунды в соответствии с путем (path). Поэтому, после размещения этого инбаунда с fallback, мы определяем несколько других инбаундов, каждый с указанным путем (если у вас уже есть такие инбаунды, достаточно изменить значение listen на предопределенные значения (`@vless-ws`, `@vmess-ws` и `@trojan-ws`) и добавить их путь в инбаунд с fallback.
 
 Итак, инбаунд с fallback отправляет трафик на другие инбаунды в зависимости от пути каждого из входящих трафиков:
 
-* path = /lw     ->    listen: "@vless-ws"
-* path = /mw     ->    listen: "@vmess-ws"
-* path = /tw     ->    listen: "@trojan-ws"
-
+- path = /lw -> listen: "@vless-ws"
+- path = /mw -> listen: "@vmess-ws"
+- path = /tw -> listen: "@trojan-ws"
 
 Итак, в соответствии с приведенным выше примером, вам просто нужно сделать разделы listen и path ваших конфигураций входящих соответствующими конфигурации fallback, чтобы все конфигурации выполнялись на одном порту.
 
 Пример таких конфигураций:
+
 ```json
 {
-            "tag": "VLESS_WS_INBOUND",
-            "listen": "@vless-ws",
-            "protocol": "vless",
-            "settings": {
-                "clients": [],
-                "decryption": "none"
-            },
-            "streamSettings": {
-                "network": "ws",
-                "security": "none",
-                "wsSettings": {
-                    "acceptProxyProtocol": true,
-                    "path": "/lw"
-                }
-            },
-            "sniffing": {
-                "enabled": true,
-                "destOverride": [
-                    "http",
-                    "tls"
-                ]
+    "tag": "VLESS_WS_INBOUND",
+    "listen": "@vless-ws",
+    "protocol": "vless",
+    "settings": {
+        "clients": [],
+        "decryption": "none"
+        },
+    "streamSettings": {
+        "network": "ws",
+        "security": "none",
+        "wsSettings": {
+            "acceptProxyProtocol": true,
+            "path": "/lw"
             }
         },
-        {
-            "tag": "VMESS_WS_INBOUND",
-            "listen": "@vmess-ws",
-            "protocol": "vmess",
-            "settings": {
-                "clients": []
-            },
-            "streamSettings": {
-                "network": "ws",
-                "security": "none",
-                "wsSettings": {
-                    "acceptProxyProtocol": true,
-                    "path": "/mw"
-                }
-            },
-            "sniffing": {
-                "enabled": true,
-                "destOverride": [
-                    "http",
-                    "tls"
-                ]
-            }
-        },
-        {
-            "tag": "TROJAN_WS_INBOUND",
-            "listen": "@trojan-ws",
-            "protocol": "trojan",
-            "settings": {
-                "clients": []
-            },
-            "streamSettings": {
-                "network": "ws",
-                "security": "none",
-                "wsSettings": {
-                    "acceptProxyProtocol": true,
-                    "path": "/tw"
-                }
-            },
-            "sniffing": {
-                "enabled": true,
-                "destOverride": [
-                    "http",
-                    "tls"
-                ]
-            }
+    "sniffing": {
+        "enabled": true,
+        "destOverride": [
+            "http",
+            "tls"
+            ]
         }
+},
+{
+    "tag": "VMESS_WS_INBOUND",
+    "listen": "@vmess-ws",
+    "protocol": "vmess",
+    "settings": {
+        "clients": []
+        },
+    "streamSettings": {
+        "network": "ws",
+        "security": "none",
+        "wsSettings": {
+        "acceptProxyProtocol": true,
+            "path": "/mw"
+            }
+        },
+    "sniffing": {
+    "enabled": true,
+    "destOverride": [
+        "http",
+        "tls"
+        ]
+    }
+},
+{
+    "tag": "TROJAN_WS_INBOUND",
+    "listen": "@trojan-ws",
+    "protocol": "trojan",
+    "settings": {
+        "clients": []
+    },
+    "streamSettings": {
+        "network": "ws",
+        "security": "none",
+            "wsSettings": {
+                "acceptProxyProtocol": true,
+                "path": "/tw"
+            }
+        },
+    "sniffing": {
+        "enabled": true,
+        "destOverride": [
+            "http",
+            "tls"
+            ]
+        }
+}
 ```
+
 :::tip
 Использование fallback увеличивает нагрузку на сервер. Вы можете установить разные поддомены для каждой из ваших конфигураций и использовать один и тот же HAProxy без необходимости перехода к однопортовым конфигурациям с TLS.
 :::
@@ -356,9 +343,9 @@ marzban restart
 Поскольку порт, указанный в inbound, является локальным портом, и фактически весь трафик идет на ваш сервер через порт 443, необходимо изменить порт на 443 в разделе хоста для созданных вами конфигураций, иначе порты по умолчанию устанавливаются для локальных конфигураций.
 
 Так же Вы должны настроить свои TLS конфигурации
+
 ## Дополнительные замечания
 
 :::danger
 Настройки, связанные с HAProxy, должны быть выполнены на всех узлах сервера, или вы можете определить отдельные входящие для некоторых узлов сервера и прослушивать их напрямую на 0.0.0.0
 :::
-
