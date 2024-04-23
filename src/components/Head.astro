@@ -1,6 +1,9 @@
 ---
-import type { Props } from '@astrojs/starlight/props'
-import Default from '@astrojs/starlight/components/Head.astro'
+import type { Props } from '@astrojs/starlight/props';
+
+import StarlightHead from '@astrojs/starlight/components/Head.astro';
+
+import VtbotStarlight from 'astro-vtbot/components/starlight/Base.astro';
 
 
 const ogImageUrl = new URL(
@@ -9,6 +12,10 @@ const ogImageUrl = new URL(
 )
 ---
 
-<Default {...Astro.props}><slot /></Default>
+<VtbotStarlight {...Astro.props}>
+
+  <StarlightHead {...Astro.props}><slot /></StarlightHead>
+
+</VtbotStarlight>
 <meta property="og:image" content={ogImageUrl} />
 <meta name="twitter:image" content={ogImageUrl} />
