@@ -4,25 +4,13 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
 import starlightOpenAPI, { openAPISidebarGroups } from "starlight-openapi";
-import { bdb } from "./src/lib/braindb.mjs";
-await bdb.ready();
 
 export default defineConfig({
-    vite: {
-    optimizeDeps: {
-      exclude: [
-        "fsevents",
-        "@node-rs",
-        "@napi-rs",
-      ],
-    },
-  },
   site: "https://docs.marzban.dev",
   //  image: {
   //     service: passthroughImageService()
   //  },
   integrations: [
-
     starlight({
       title: "Marzban",
       plugins: [
