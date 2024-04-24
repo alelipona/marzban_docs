@@ -3,7 +3,7 @@ import type { Props } from "@astrojs/starlight/props";
 import StarlightHead from "@astrojs/starlight/components/Head.astro";
 import VtbotStarlight from "astro-vtbot/components/starlight/Base.astro";
 import LoadingIndicator from "astro-vtbot/components/LoadingIndicator.astro";
-import { slide } from "astro:transitions";
+import { hide } from "astro:transitions";
 
 const ogImageUrl = new URL(
   `/og/${Astro.props.id.replace(/\.\w+$/, ".png")}`,
@@ -14,7 +14,7 @@ const ogImageUrl = new URL(
 <VtbotStarlight
   {...Astro.props}
   transition:name="main"
-  transition:animate={slide({ duration: 100 })}
+  transition:animate={hide({ duration: 50 })}
 >
   <StarlightHead {...Astro.props}><slot /></StarlightHead>
 </VtbotStarlight>
